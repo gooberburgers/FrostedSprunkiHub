@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sprunki Archive Collection</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.6);
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px auto;
+            gap: 15px;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            color: white;
+            background-color: black;
+            border: 2px solid white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            width: 200px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: white;
+            color: black;
+            box-shadow: 0px 0px 10px white;
+        }
+
+        .polka-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dot {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: rise 5s linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
+        }
+
+        .gradient-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+            pointer-events: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="polka-dots" id="polka-dots"></div>
+
+    <h1>The Sprunki Archive Collection @omegadogey, @frosted_devy</h1>
+    <div class="button-container">
+        <a href="https://html-classic.itch.zone/html/12284999/index.html" class="button" target="_blank">Sprunki 1.0</a>
+        <a href="https://html-classic.itch.zone/html/12285082/index.html" class="button" target="_blank">Phase 3</a>
+        <a href="https://html-classic.itch.zone/html/12285688/index.html" class="button" target="_blank">Sprunkr</a>
+        <a href="https://html-classic.itch.zone/html/12285801/index.html" class="button" target="_blank">Sprunked 1.0</a>
+        <a href="https://html-classic.itch.zone/html/12285822/index.html" class="button" target="_blank">Sprinkle</a>
+        <a href="https://html-classic.itch.zone/html/12285857/index.html" class="button" target="_blank">Phase 3 RM</a>
+        <a href="https://html-classic.itch.zone/html/12285885/index.html" class="button" target="_blank">Definitive Phase 3</a>
+        <a href="https://html-classic.itch.zone/html/12285981/index.html" class="button" target="_blank">Definitive Phase 4</a>
+        <a href="https://html-classic.itch.zone/html/12286032/index.html" class="button" target="_blank">Retake</a>
+        <a href="https://html-classic.itch.zone/html/12286119/index.html" class="button" target="_blank">Phase 9???</a>
+        <a href="https://html-classic.itch.zone/html/12286154/index.html" class="button" target="_blank">Phase 777</a>
+        <a href="https://html-classic.itch.zone/html/12286357/index.html" class="button" target="_blank">Rejoyed</a>
+    </div>
+
+    <div class="gradient-bottom"></div>
+
+    <script>
+        const polkaDotsContainer = document.getElementById('polka-dots');
+        const numDots = 100;
+
+        for (let i = 0; i < numDots; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.style.left = Math.random() * 100 + 'vw';
+            dot.style.animationDelay = Math.random() * 5 + 's';
+            dot.style.animationDuration = 5 + Math.random() * 5 + 's';
+            polkaDotsContainer.appendChild(dot);
+        }
+    </script>
+</body>
+</html>

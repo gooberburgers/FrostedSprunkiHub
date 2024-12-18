@@ -12,7 +12,10 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow: auto; /* Enable scrolling when content overflows */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         h1 {
@@ -34,16 +37,16 @@
         }
         
         .button2 {
-           margin: 10px;
-           display: inline-block;
-           padding: 15px 30px;
-           font-size: 1rem;
-           color: cyan;
-           background-color: black;
-           border: 2px solid cyan;
-           text-decoration: none;
-           border-radius: 5px;
-           transition: all 0.3s ease;
+            margin: 10px;
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1rem;
+            color: cyan;
+            background-color: black;
+            border: 2px solid cyan;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
         }
          
         .button:hover {
@@ -118,6 +121,26 @@
             background-color: cyan;
             transition: height 0.1s;
         }
+
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 12px; /* Width of the scrollbar */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2e2e2e; /* Dark background for the track */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: cyan; /* Cyan color for the thumb */
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00b8b8; /* Darker cyan on hover */
+        }
+
     </style>
 </head>
 <body>
@@ -164,7 +187,7 @@
     </div>
 
     <script>
-        const modsPage = document.getElementById('mods-page');
+               const modsPage = document.getElementById('mods-page');
         const mixtracksPage = document.getElementById('mixtracks-page');
         const mixtracksButton = document.getElementById('mixtracksButton');
         const backButton = document.getElementById('backButton');

@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0079)file:///C:/Users/Demi/Documents/Sprunki%20Archive%20Collection%20Mixtracks.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Sprunki Archive Collection</title>
     <style>
-body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    touch-action: manipulation; /* Improve touch handling on mobile */
-}
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
 
         h1 {
             margin-top: 20px;
@@ -55,100 +55,132 @@ body {
             color: black;
         }
 
-        .button-container {
+        .scroll-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            align-content: flex-start;
+            overflow-y: auto;
+            max-height: 70vh; /* Adjust as needed */
             margin: 20px;
+            padding: 10px;
+            border: 2px solid white;
+            border-radius: 10px;
         }
 
         .hidden {
             display: none;
         }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .fade {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-            z-index: 2;
-        }
-
-        .submit-section {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 3;
-        }
-
-        .submit-input {
-            padding: 10px;
-            font-size: 1rem;
-            border: 2px solid white;
-            border-radius: 5px;
-            background-color: black;
-            color: white;
-            margin-right: 10px;
-        }
-
-        .visualizer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            height: 200px;
-            background-color: black;
-            z-index: 4;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 5px;
-        }
-
-        .bar {
-            width: 5px;
-            height: 10px;
-            background-color: cyan;
-            transition: height 0.1s;
-        }
-
         /* Custom scrollbar styles */
         ::-webkit-scrollbar {
-            width: 12px; /* Width of the scrollbar */
+            width: 12px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #2e2e2e; /* Dark background for the track */
+            background: #2e2e2e;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: cyan; /* Cyan color for the thumb */
+            background: cyan;
             border-radius: 6px;
             transition: background 0.3s;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #00b8b8; /* Darker cyan on hover */
+            background: #00b8b8;
         }
+    .submit-section {
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
+    .submit-input {
+        width: 80%;
+        max-width: 600px;
+        padding: 10px;
+        font-size: 1rem;
+        background-color: black;
+        color: white;
+        border: 2px solid white;
+        border-radius: 5px;
+        resize: none;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .submit-input:focus {
+        border-color: cyan;
+    }
+
+    .submit-input::placeholder {
+        color: gray;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Auto-resize functionality */
+    .submit-input.auto-resize {
+        min-height: 40px; /* Starting height */
+        line-height: 1.5; /* Adjust for better readability */
+        overflow-y: hidden;
+    }
+
+    .submit-input.auto-resize:focus {
+        min-height: 60px; /* Increase starting height on focus */
+    }
+	/* Style for the particles */
+.particles {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Ensures particles don't interact with buttons */
+    z-index: -1; /* Puts particles behind other content */
+}
+
+.particle {
+    position: absolute;
+    bottom: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 1;
+    animation: floatUp 5s linear infinite, fadeOut 5s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        bottom: 0;
+        opacity: 1;
+    }
+    100% {
+        bottom: 100vh;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
     </style>
 </head>
 <body>
     <div id="mods-page">
-        <h1>The Sprunki Archive Collection @omegadogey, @frosted_dev</h1>
-
-        <div class="button-container">
+        <h1>The Sprunki Archive Collection @omegadogey, @frosted_devy</h1>
+		<div class="particles"></div>
+        <div class="scroll-container">
             <a href="https://html-classic.itch.zone/html/12284999/index.html" class="button" target="_blank">Sprunki 1.0</a>
             <a href="https://html-classic.itch.zone/html/12285082/index.html" class="button" target="_blank">Phase 3</a>
             <a href="https://html-classic.itch.zone/html/12285688/index.html" class="button" target="_blank">Sprunkr</a>
@@ -164,7 +196,7 @@ body {
             <a href="https://html-classic.itch.zone/html/12289210/index.html" class="button" target="_blank">SPRUNKED Character Index</a>
             <a href="https://html-classic.itch.zone/html/12289526/index.html" class="button" target="_blank">Cancelled Update (Fanmade)</a>
             <a href="https://html-classic.itch.zone/html/12289576/index.html" class="button" target="_blank">Phase 7 (Fanmade)</a>
-           <a href="https://html-classic.itch.zone/html/12290662/index.html" class="button" target="_blank">Sprunked Kino</a>
+            <a href="https://html-classic.itch.zone/html/12290662/index.html" class="button" target="_blank">Sprunked Kino</a>
             <button id="mixtracksButton" class="button2">Mixtracks Section</button>
         </div>
     </div>
@@ -182,12 +214,34 @@ body {
     <div class="particles"></div>
     <div class="fade"></div>
 
-    <div class="submit-section">
-        <input type="text" id="modInput" class="submit-input" placeholder="Type here...">
-        <button id="submitButton" class="button">Submit</button>
-    </div>
+<div class="submit-section">
+    <textarea id="modInput" class="submit-input auto-resize" placeholder="Add an idea to the site..."></textarea>
+    <button id="submitButton" class="button">Submit</button>
+</div>
 
     <script>
+	 const particleContainer = document.querySelector('.particles');
+        // Particle creation and animation
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    const xPos = Math.random() * window.innerWidth; // Random X position
+    const delay = Math.random() * 2; // Random delay for staggered start
+
+    particle.style.left = `${xPos}px`;
+    particle.style.animationDelay = `${delay}s`;
+
+    document.querySelector('.particles').appendChild(particle);
+
+    // Remove the particle after the animation completes
+    setTimeout(() => {
+        particle.remove();
+    }, 5000); // Matches animation duration
+}
+
+// Generate particles at intervals
+setInterval(createParticle, 100); // Adjust the interval for particle density
+
                const modsPage = document.getElementById('mods-page');
         const mixtracksPage = document.getElementById('mixtracks-page');
         const mixtracksButton = document.getElementById('mixtracksButton');
@@ -195,6 +249,17 @@ body {
         const playButton = document.getElementById('playMix');
         const stopButton = document.getElementById('stopMix');
         const visualizer = document.getElementById('visualizer');
+    const modInput = document.getElementById('modInput');
+
+    // Dynamically adjust the height of the text box based on content
+    modInput.addEventListener('input', (event) => {
+        event.target.style.height = 'auto'; // Reset height
+        event.target.style.height = `${event.target.scrollHeight}px`; // Adjust to content
+    });
+
+    // Ensure the input field has the auto-resize class
+    modInput.classList.add('auto-resize');
+
 
         const audio = new Audio('SprunkrMix.mp3');
         audio.loop = true;
@@ -263,7 +328,6 @@ function updateVisualizer() {
 // Submit Mod Button Logic
         const webhookUrl = "https://discord.com/api/webhooks/1318732529305522206/re4zLU5DIM4uTY0onZ0rW86ZqWLkEIPYjaRaHkJ3KPb9A5KzujOrCLLeiTn9EKzGzBmI";
         const submitButton = document.getElementById('submitButton');
-        const modInput = document.getElementById('modInput');
 
         let isCooldown = false;
 
@@ -305,5 +369,6 @@ function updateVisualizer() {
             }, 100000); // 100 seconds cooldown
         });
     </script>
-</body>
-</html>
+
+
+</body></html>

@@ -45,6 +45,10 @@
             margin: 20px;
         }
 
+        .hidden {
+            display: none;
+        }
+
         .particles {
             position: fixed;
             top: 0;
@@ -84,33 +88,60 @@
     </style>
 </head>
 <body>
-    <h1>The Sprunki Archive Collection @omegadogey, @frosted_dev</h1>
+    <div id="mods-page">
+        <h1>The Sprunki Archive Collection @omegadogey, @frosted_dev</h1>
 
-    <div class="button-container">
-        <a href="https://html-classic.itch.zone/html/12284999/index.html" class="button" target="_blank">Sprunki 1.0</a>
-        <a href="https://html-classic.itch.zone/html/12285082/index.html" class="button" target="_blank">Phase 3</a>
-        <a href="https://html-classic.itch.zone/html/12285688/index.html" class="button" target="_blank">Sprunkr</a>
-        <a href="https://html-classic.itch.zone/html/12285801/index.html" class="button" target="_blank">Sprunked 1.0</a>
-        <a href="https://html-classic.itch.zone/html/12285822/index.html" class="button" target="_blank">Sprinkle</a>
-        <a href="https://html-classic.itch.zone/html/12285857/index.html" class="button" target="_blank">Phase 3 RM</a>
-        <a href="https://html-classic.itch.zone/html/12285885/index.html" class="button" target="_blank">Definitive Phase 3</a>
-        <a href="https://html-classic.itch.zone/html/12285981/index.html" class="button" target="_blank">Definitive Phase 4</a>
-        <a href="https://html-classic.itch.zone/html/12286032/index.html" class="button" target="_blank">Retake</a>
-        <a href="https://html-classic.itch.zone/html/12286119/index.html" class="button" target="_blank">Phase 9???</a>
-        <a href="https://html-classic.itch.zone/html/12286154/index.html" class="button" target="_blank">Phase 777</a>
-        <a href="https://html-classic.itch.zone/html/12286357/index.html" class="button" target="_blank">Rejoyed</a>
-        <a href="https://html-classic.itch.zone/html/12289210/index.html" class="button" target="_blank">SPRUNKED Character Index</a>
+        <div class="button-container">
+            <a href="https://html-classic.itch.zone/html/12284999/index.html" class="button" target="_blank">Sprunki 1.0</a>
+            <a href="https://html-classic.itch.zone/html/12285082/index.html" class="button" target="_blank">Phase 3</a>
+            <a href="https://html-classic.itch.zone/html/12285688/index.html" class="button" target="_blank">Sprunkr</a>
+            <a href="https://html-classic.itch.zone/html/12285801/index.html" class="button" target="_blank">Sprunked 1.0</a>
+            <a href="https://html-classic.itch.zone/html/12285822/index.html" class="button" target="_blank">Sprinkle</a>
+            <a href="https://html-classic.itch.zone/html/12285857/index.html" class="button" target="_blank">Phase 3 RM</a>
+            <a href="https://html-classic.itch.zone/html/12285885/index.html" class="button" target="_blank">Definitive Phase 3</a>
+            <a href="https://html-classic.itch.zone/html/12285981/index.html" class="button" target="_blank">Definitive Phase 4</a>
+            <a href="https://html-classic.itch.zone/html/12286032/index.html" class="button" target="_blank">Retake</a>
+            <a href="https://html-classic.itch.zone/html/12286119/index.html" class="button" target="_blank">Phase 9???</a>
+            <a href="https://html-classic.itch.zone/html/12286154/index.html" class="button" target="_blank">Phase 777</a>
+            <a href="https://html-classic.itch.zone/html/12286357/index.html" class="button" target="_blank">Rejoyed</a>
+            <a href="https://html-classic.itch.zone/html/12289210/index.html" class="button" target="_blank">SPRUNKED Character Index</a>
+            <button id="mixtracksButton" class="button">Mixtracks</button>
+        </div>
+    </div>
+
+    <div id="mixtracks-page" class="hidden">
+        <h1>Mixtracks</h1>
+        <div class="button-container" id="track-list">
+            <a href="SprunkrMix.mp3" class="button" target="_blank">SprunkrMix.mp3</a>
+        </div>
+        <button id="backButton" class="button">Back</button>
     </div>
 
     <div class="particles"></div>
     <div class="fade"></div>
 
     <div class="submit-section">
-        <input type="text" id="modInput" class="submit-input" placeholder="Type your mod here...">
-        <button id="submitButton" class="button">Submit Mod</button>
+        <input type="text" id="modInput" class="submit-input" placeholder="Type here...">
+        <button id="submitButton" class="button">Submit</button>
     </div>
 
     <script>
+        // Page toggle logic
+        const modsPage = document.getElementById('mods-page');
+        const mixtracksPage = document.getElementById('mixtracks-page');
+        const mixtracksButton = document.getElementById('mixtracksButton');
+        const backButton = document.getElementById('backButton');
+
+        mixtracksButton.addEventListener('click', () => {
+            modsPage.classList.add('hidden');
+            mixtracksPage.classList.remove('hidden');
+        });
+
+        backButton.addEventListener('click', () => {
+            mixtracksPage.classList.add('hidden');
+            modsPage.classList.remove('hidden');
+        });
+
         // Particle Effect
         const particlesContainer = document.querySelector('.particles');
 
@@ -170,7 +201,7 @@
                 alert('Mod submitted successfully!');
                 modInput.value = '';
             } catch (error) {
-                alert('Failed to submit mod. Please try again later.');
+                alert('Failed to submit. Please try again later.');
                 console.error(error);
             }
 

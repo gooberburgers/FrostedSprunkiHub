@@ -193,15 +193,18 @@
 
         const bars = document.querySelectorAll('.bar');
 
-        function updateVisualizer() {
-            analyser.getByteFrequencyData(dataArray);
+function updateVisualizer() {
+    analyser.getByteFrequencyData(dataArray);
 
-            bars.forEach((bar, i) => {
-                bar.style.height = `${dataArray[i]}px`;
-            });
+    bars.forEach((bar, i) => {
+        const volume = dataArray[i];
+        bar.style.height = `${volume}px`;
+        // Adjust opacity based on volume
+        bar.style.opacity = volume / 255; // Normalize volume to 0-1
+    });
 
-            requestAnimationFrame(updateVisualizer);
-        }
+    requestAnimationFrame(updateVisualizer);
+}
 
         mixtracksButton.addEventListener('click', () => {
             modsPage.classList.add('hidden');

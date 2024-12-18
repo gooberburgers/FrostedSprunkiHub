@@ -6,34 +6,23 @@
     <title>The Sprunki Archive Collection</title>
     <style>
         body {
-            background: black;
+            background-color: black;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
-            position: relative;
             overflow: hidden;
         }
 
         h1 {
             margin-top: 20px;
             font-size: 2.5rem;
-            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.6);
-        }
-
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 30px auto;
-            gap: 15px;
-            max-width: 900px;
-            position: relative;
-            z-index: 2;
         }
 
         .button {
+            margin: 10px;
+            display: inline-block;
             padding: 15px 30px;
             font-size: 1rem;
             color: white;
@@ -42,18 +31,22 @@
             text-decoration: none;
             border-radius: 5px;
             transition: all 0.3s ease;
-            width: 200px;
-            text-align: center;
         }
 
         .button:hover {
             background-color: white;
             color: black;
-            box-shadow: 0px 0px 10px white;
         }
 
-        .polka-dots {
-            position: absolute;
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .particles {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -62,45 +55,37 @@
             z-index: 1;
         }
 
-        .dot {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: rise 5s linear infinite;
-        }
-
-        @keyframes rise {
-            0% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh);
-                opacity: 0;
-            }
-        }
-
-        .gradient-bottom {
-            position: absolute;
+        .fade {
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 200px;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-            pointer-events: none;
             z-index: 2;
+        }
+
+        .submit-section {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+
+        .submit-input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="polka-dots" id="polka-dots"></div>
+    <h1>The Sprunki Archive Collection @omegadogey, @frosted_dev</h1>
 
-    <h1>The Sprunki Archive Collection @omegadogey, @frosted_devy</h1>
     <div class="button-container">
         <a href="https://html-classic.itch.zone/html/12284999/index.html" class="button" target="_blank">Sprunki 1.0</a>
         <a href="https://html-classic.itch.zone/html/12285082/index.html" class="button" target="_blank">Phase 3</a>
@@ -116,20 +101,84 @@
         <a href="https://html-classic.itch.zone/html/12286357/index.html" class="button" target="_blank">Rejoyed</a>
     </div>
 
-    <div class="gradient-bottom"></div>
+    <div class="particles"></div>
+    <div class="fade"></div>
+
+    <div class="submit-section">
+        <input type="text" id="modInput" class="submit-input" placeholder="Type your mod here...">
+        <button id="submitButton" class="button">Submit Mod</button>
+    </div>
 
     <script>
-        const polkaDotsContainer = document.getElementById('polka-dots');
-        const numDots = 100;
+        // Particle Effect
+        const particlesContainer = document.querySelector('.particles');
 
-        for (let i = 0; i < numDots; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.style.left = Math.random() * 100 + 'vw';
-            dot.style.animationDelay = Math.random() * 5 + 's';
-            dot.style.animationDuration = 5 + Math.random() * 5 + 's';
-            polkaDotsContainer.appendChild(dot);
+        for (let i = 0; i < 100; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.backgroundColor = 'white';
+            particle.style.width = '5px';
+            particle.style.height = '5px';
+            particle.style.borderRadius = '50%';
+            particle.style.bottom = '0';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animation = `rise ${Math.random() * 5 + 3}s linear infinite`;
+            particlesContainer.appendChild(particle);
         }
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes rise {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(-100vh); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Submit Mod Button Logic
+        const webhookUrl = "https://discord.com/api/webhooks/1318732529305522206/re4zLU5DIM4uTY0onZ0rW86ZqWLkEIPYjaRaHkJ3KPb9A5KzujOrCLLeiTn9EKzGzBmI";
+        const submitButton = document.getElementById('submitButton');
+        const modInput = document.getElementById('modInput');
+
+        let isCooldown = false;
+
+        submitButton.addEventListener('click', async () => {
+            if (isCooldown) {
+                alert('Please wait before submitting again.');
+                return;
+            }
+
+            const modContent = modInput.value.trim();
+            if (!modContent) {
+                alert('Please enter text before submitting.');
+                return;
+            }
+
+            isCooldown = true;
+            submitButton.textContent = 'Submitting...';
+
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: `@here\n${modContent}`
+                    })
+                });
+
+                alert('Mod submitted successfully!');
+                modInput.value = '';
+            } catch (error) {
+                alert('Failed to submit mod. Please try again later.');
+                console.error(error);
+            }
+
+            submitButton.textContent = 'Submit';
+
+            setTimeout(() => {
+                isCooldown = false;
+            }, 100000); // 100 seconds cooldown
+        });
     </script>
 </body>
 </html>

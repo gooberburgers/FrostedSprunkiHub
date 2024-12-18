@@ -98,6 +98,26 @@
             color: white;
             margin-right: 10px;
         }
+
+        .visualizer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background-color: black;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .bar {
+            width: 5px;
+            height: 10px;
+            background-color: cyan;
+            transition: height 0.1s;
+        }
     </style>
 </head>
 <body>
@@ -126,9 +146,11 @@
 
     <div id="mixtracks-page" class="hidden">
         <h1>Mixtracks</h1>
-        <div class="button-container" id="track-list">
-            <a href="SprunkrMix.mp3" class="button" target="_blank">SprunkrMix.mp3</a>
+        <div class="button-container">
+            <button id="playMix" class="button">Play SprunkrMix</button>
+            <button id="stopMix" class="button hidden">Stop</button>
         </div>
+        <div class="visualizer hidden" id="visualizer"></div>
         <button id="backButton" class="button">Back</button>
     </div>
 
@@ -141,11 +163,45 @@
     </div>
 
     <script>
-        // Page toggle logic
         const modsPage = document.getElementById('mods-page');
         const mixtracksPage = document.getElementById('mixtracks-page');
         const mixtracksButton = document.getElementById('mixtracksButton');
         const backButton = document.getElementById('backButton');
+        const playButton = document.getElementById('playMix');
+        const stopButton = document.getElementById('stopMix');
+        const visualizer = document.getElementById('visualizer');
+
+        const audio = new Audio('SprunkrMix.mp3');
+        audio.loop = true;
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaElementSource(audio);
+
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        for (let i = 0; i < bufferLength; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            visualizer.appendChild(bar);
+        }
+
+        const bars = document.querySelectorAll('.bar');
+
+        function updateVisualizer() {
+            analyser.getByteFrequencyData(dataArray);
+
+            bars.forEach((bar, i) => {
+                bar.style.height = `${dataArray[i]}px`;
+            });
+
+            requestAnimationFrame(updateVisualizer);
+        }
 
         mixtracksButton.addEventListener('click', () => {
             modsPage.classList.add('hidden');
@@ -155,34 +211,28 @@
         backButton.addEventListener('click', () => {
             mixtracksPage.classList.add('hidden');
             modsPage.classList.remove('hidden');
+            audio.pause();
+            visualizer.classList.add('hidden');
+            stopButton.classList.add('hidden');
+            playButton.classList.remove('hidden');
         });
 
-        // Particle Effect
-        const particlesContainer = document.querySelector('.particles');
+        playButton.addEventListener('click', () => {
+            audioContext.resume();
+            audio.play();
+            visualizer.classList.remove('hidden');
+            playButton.classList.add('hidden');
+            stopButton.classList.remove('hidden');
+            updateVisualizer();
+        });
 
-        for (let i = 0; i < 100; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.backgroundColor = 'white';
-            particle.style.width = '5px';
-            particle.style.height = '5px';
-            particle.style.borderRadius = '50%';
-            particle.style.bottom = '0';
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animation = `rise ${Math.random() * 5 + 3}s linear infinite`;
-            particlesContainer.appendChild(particle);
-        }
-
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes rise {
-                0% { transform: translateY(0); opacity: 1; }
-                100% { transform: translateY(-100vh); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Submit Mod Button Logic
+        stopButton.addEventListener('click', () => {
+            audio.pause();
+            visualizer.classList.add('hidden');
+            stopButton.classList.add('hidden');
+            playButton.classList.remove('hidden');
+        });
+// Submit Mod Button Logic
         const webhookUrl = "https://discord.com/api/webhooks/1318732529305522206/re4zLU5DIM4uTY0onZ0rW86ZqWLkEIPYjaRaHkJ3KPb9A5KzujOrCLLeiTn9EKzGzBmI";
         const submitButton = document.getElementById('submitButton');
         const modInput = document.getElementById('modInput');

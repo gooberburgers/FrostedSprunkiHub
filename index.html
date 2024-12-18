@@ -55,19 +55,6 @@
             color: black;
         }
 
-        .scroll-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-content: flex-start;
-            overflow-y: auto;
-            max-height: 70vh; /* Adjust as needed */
-            margin: 20px;
-            padding: 10px;
-            border: 2px solid white;
-            border-radius: 10px;
-        }
-
         .hidden {
             display: none;
         }
@@ -96,6 +83,33 @@
         flex-direction: column;
         align-items: center;
     }
+
+.visualizer {
+    position: absolute; /* Position it outside the flow of the page */
+    top: 50%; /* You can adjust the position as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* Make it as wide as you need */
+    height: 100px; /* Adjust the height based on your desired visualizer size */
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    z-index: 10; /* Make sure it appears above other elements */
+}
+
+.scroll-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    overflow-y: auto;
+    max-height: 70vh; /* Adjust as needed */
+    margin: 20px;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    position: relative; /* Ensure scroll-container stays within its boundaries */
+}
 
     .submit-input {
         width: 80%;
@@ -201,15 +215,16 @@
         </div>
     </div>
 
-    <div id="mixtracks-page" class="hidden">
-        <h1>Mixtracks</h1>
-        <div class="button-container">
-            <button id="playMix" class="button">Play SprunkrMix</button>
-            <button id="stopMix" class="button hidden">Stop</button>
-        </div>
-        <div class="visualizer hidden" id="visualizer"></div>
-        <button id="backButton" class="button">Back</button>
+<div id="mixtracks-page" class="hidden">
+    <h1>Mixtracks</h1>
+    <div class="button-container">
+        <button id="playMix" class="button">Play SprunkrMix</button>
+        <button id="stopMix" class="button hidden">Stop</button>
     </div>
+    <!-- Move the visualizer out of scroll-container -->
+    <div class="visualizer hidden" id="visualizer"></div>
+    <button id="backButton" class="button">Back</button>
+</div>
 
     <div class="particles"></div>
     <div class="fade"></div>
